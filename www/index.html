@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="todo" ng-controller="TodoCtrl">
+    <!-- Ion side menu overall app layout -->
+    <ion-side-menus>
+
+      <!-- Content area of application here -->
+      <ion-side-menu-content>
+
+        <!-- Dark header bar -->
+        <ion-header-bar class="bar-dark">
+          <!-- Toggle projects button -->
+          <button class="button button-icon" ng-click="toggleProjects()">
+            <i class="icon ion-navicon"></i>
+          </button>
+          <!-- End toggle projects button -->
+
+          <h1 class="title">{{activeProject.title}}</h1>
+
+          <!-- New Task Button -->
+          <button class="button button-icon" ng-click="newTask()">
+            <i class="icon ion-compose"></i>
+          </button>
+          <!-- End new task buton -->
+        </ion-header-bar>
+        <!-- End Dark header bar -->
+
+        <!-- Large content area -->
+        <ion-content scroll="false">
+
+          <!-- Our list of tasks in content pane -->
+          <ion-list>
+            <ion-item ng-repeat="task in activeProject.tasks">
+              {{task.title}}
+            </ion-item>
+          </ion-list>
+          <!-- End list of tasks -->
+
+        </ion-content>
+        <!-- End Large content area -->
+
+      </ion-side-menu-content>
+      <!-- End content area of application -->
+
+      <!-- Left menu -->
+      <ion-side-menu side="left">
+
+        <!-- Dark menu header bar -->
+        <ion-header-bar class="bar-dark">
+          <h1 class="title">Projects</h1>
+          <button class="button button-icon ion-plus" ng-click="newProject()"></button>
+        </ion-header-bar>
+        <!-- End dark menu header bar -->
+
+        <!-- Begin our list of projects -->
+        <ion-content scroll="false">
+          <ion-list>
+            <ion-item ng-repeat="project in projects" ng-click="selectProject(project, 0index)" ng-class="{active: activeProject == project}">
+              {{project.title}}
+            </ion-item>
+          </ion-list>
+        </ion-content>
+        <!-- End our list of projects -->
+
+      </ion-side-menu>
+      <!-- End left menu -->
+
+    </ion-side-menus>
+    <!-- End overall app layout -->
+
+    <!-- Add new task modal template -->
+    <script id="new-task.html" type="text/ng-template">
+      <div class="modal">
+
+        <!-- Modal header bar -->
+        <ion-header-bar class="bar-secondary">
+          <h1 class="title">New Task</h1>
+          <button class="button button-clear button-positive" ng-click="closeNewTask()">Cancel</button>
+        </ion-header-bar>
+        <!-- End Modal header bar -->
+
+        <!-- Modal content area -->
+        <ion-content>
+
+          <!-- Begin create task form -->
+          <form ng-submit="createTask(task)">
+            <div class="list">
+              <label class="item item-input">
+                <input placeholder="What do you need to do?" ng-model="task.title" type="text"/>
+              </label>
+            </div>
+            <div class="padding">
+              <button class="button button-block button-positive" type="submit">Create Task</button>
+            </div>
+          </form>
+          <!-- End create task form -->
+
+        </ion-content>
+        <!-- End Modal content area -->
+
+      </div>
+    </script>
+    <!-- End modal template -->
+  </body>
+</html>
